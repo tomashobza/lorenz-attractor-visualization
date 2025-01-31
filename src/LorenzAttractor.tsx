@@ -1,64 +1,83 @@
-import React, { useRef, useMemo, useEffect } from "react";
+import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import * as THREE from "three";
+import type { Points, BufferGeometry, PointsMaterial } from "three";
 
-function LorenzParticles() {
-  const pointsRef = useRef();
+type PointsRef = Points<BufferGeometry, PointsMaterial>;
 
-  // Lorenz parameters
-  const SIGMA = 10;
-  const RHO = 28;
-  const BETA = 8 / 3;
-  const DT = 0.005;
-  const NUM_PARTICLES = 5000;
+interface LorenzConfig {
+  SIGMA: number;
+  RHO: number;
+  BETA: number;
+  DT: number;
+  NUM_PARTICLES: number;
+  BOUNDS: number;
+}
+
+const CONFIG: LorenzConfig = {
+  SIGMA: 10,
+  RHO: 28,
+  BETA: 8 / 3,
+  DT: 0.005,
+  NUM_PARTICLES: 5000,
+  BOUNDS: 50,
+} as const;
+
+const LorenzParticles: React.FC = () => {
+  const pointsRef = useRef<PointsRef>(null);
 
   const positions = useMemo(() => {
-    const pos = new Float32Array(NUM_PARTICLES * 3);
-    for (let i = 0; i < NUM_PARTICLES; i++) {
-      // Initialize near the attractor's typical starting region
-      pos[i * 3] = 1 + (Math.random() - 0.5) * 0.1;
-      pos[i * 3 + 1] = 1 + (Math.random() - 0.5) * 0.1;
-      pos[i * 3 + 2] = 20 + (Math.random() - 0.5) * 0.1;
+    const pos = new Float32Array(CONFIG.NUM_PARTICLES * 3);
+    for (let i = 0; i < CONFIG.NUM_PARTICLES; i++) {
+      const i3 = i * 3;
+      pos[i3] = 1 + (Math.random() - 0.5) * 0.1;
+      pos[i3 + 1] = 1 + (Math.random() - 0.5) * 0.1;
+      pos[i3 + 2] = 20 + (Math.random() - 0.5) * 0.1;
     }
     return pos;
   }, []);
 
   const colors = useMemo(() => {
-    const cols = new Float32Array(NUM_PARTICLES * 3);
-    for (let i = 0; i < NUM_PARTICLES; i++) {
-      const t = i / NUM_PARTICLES;
-      // Create a blue to purple gradient
-      cols[i * 3] = 0.5 + 0.5 * Math.sin(t * 6.28); // R
-      cols[i * 3 + 1] = 0.2; // G
-      cols[i * 3 + 2] = 1; // B
+    const cols = new Float32Array(CONFIG.NUM_PARTICLES * 3);
+    for (let i = 0; i < CONFIG.NUM_PARTICLES; i++) {
+      const i3 = i * 3;
+      const t = i / CONFIG.NUM_PARTICLES;
+      cols[i3] = 0.5 + 0.5 * Math.sin(t * 6.28);
+      cols[i3 + 1] = 0.2;
+      cols[i3 + 2] = 1;
     }
     return cols;
   }, []);
 
   useFrame(() => {
     if (!pointsRef.current) return;
-    const positions = pointsRef.current.geometry.attributes.position.array;
 
-    for (let i = 0; i < NUM_PARTICLES; i++) {
+    const geometry = pointsRef.current.geometry;
+    const positionAttribute = geometry.attributes
+      .position as THREE.BufferAttribute;
+    const positions = positionAttribute.array as Float32Array;
+
+    for (let i = 0; i < CONFIG.NUM_PARTICLES; i++) {
       const i3 = i * 3;
       const x = positions[i3];
       const y = positions[i3 + 1];
       const z = positions[i3 + 2];
 
       // Lorenz equations
-      const dx = SIGMA * (y - x);
-      const dy = x * (RHO - z) - y;
-      const dz = x * y - BETA * z;
+      const dx = CONFIG.SIGMA * (y - x);
+      const dy = x * (CONFIG.RHO - z) - y;
+      const dz = x * y - CONFIG.BETA * z;
 
-      positions[i3] += dx * DT;
-      positions[i3 + 1] += dy * DT;
-      positions[i3 + 2] += dz * DT;
+      positions[i3] += dx * CONFIG.DT;
+      positions[i3 + 1] += dy * CONFIG.DT;
+      positions[i3 + 2] += dz * CONFIG.DT;
 
       // Reset particle if it goes too far
       if (
-        Math.abs(positions[i3]) > 50 ||
-        Math.abs(positions[i3 + 1]) > 50 ||
-        Math.abs(positions[i3 + 2]) > 50
+        Math.abs(positions[i3]) > CONFIG.BOUNDS ||
+        Math.abs(positions[i3 + 1]) > CONFIG.BOUNDS ||
+        Math.abs(positions[i3 + 2]) > CONFIG.BOUNDS
       ) {
         positions[i3] = 1 + (Math.random() - 0.5) * 0.1;
         positions[i3 + 1] = 1 + (Math.random() - 0.5) * 0.1;
@@ -66,7 +85,7 @@ function LorenzParticles() {
       }
     }
 
-    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    positionAttribute.needsUpdate = true;
   });
 
   return (
@@ -75,13 +94,13 @@ function LorenzParticles() {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={NUM_PARTICLES}
+            count={CONFIG.NUM_PARTICLES}
             array={positions}
             itemSize={3}
           />
           <bufferAttribute
             attach="attributes-color"
-            count={NUM_PARTICLES}
+            count={CONFIG.NUM_PARTICLES}
             array={colors}
             itemSize={3}
           />
@@ -96,14 +115,20 @@ function LorenzParticles() {
       </points>
     </group>
   );
+};
+
+interface LorenzAttractorProps {
+  className?: string;
 }
 
-export default function LorenzAttractor() {
+const LorenzAttractor: React.FC<LorenzAttractorProps> = ({
+  className = "w-full h-full",
+}) => {
   return (
-    <div className="w-full h-96 border border-gray-300">
+    <div className={className}>
       <Canvas
         camera={{
-          position: [50, -50, 30], // Changed camera angle
+          position: [50, -50, 30],
           fov: 60,
           near: 0.1,
           far: 1000,
@@ -113,12 +138,11 @@ export default function LorenzAttractor() {
         <color attach="background" args={["#ffffff"]} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
-
         <LorenzParticles />
-
         <OrbitControls makeDefault autoRotate />
-        {/* <axesHelper args={[5]} /> */}
       </Canvas>
     </div>
   );
-}
+};
+
+export default LorenzAttractor;
