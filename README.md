@@ -6,7 +6,7 @@ A beautiful 3D visualization of the Lorenz system using React Three Fiber. This 
 
 Check out the live demo [here](https://lorenz-attractor-visualization.vercel.app/).
 
-![Lorenz Attractor Example](https://raw.githubusercontent.com/tomashobza/lorenz-attractor-visualization/main/lorenz-attraction-demo.gif)
+![Lorenz Attractor Example](https://github.com/tomashobza/lorenz-attractor-visualization/blob/main/lorenz-attraction-demo.gif?raw=true)
 
 ## 🚀 Features
 
