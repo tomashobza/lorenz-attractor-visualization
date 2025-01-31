@@ -53,8 +53,7 @@ function App() {
           transition={{ duration: 0.5 }}
         >
           <motion.button
-            className="absolute -top-12 left-0 bg-black/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg 
-                     hover:bg-black/40 transition-colors flex items-center gap-2"
+            className="absolute -top-12 left-0 bg-black/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-black/40 transition-colors flex items-center gap-2"
             onClick={() => setIsOpen(!isOpen)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -72,7 +71,7 @@ function App() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              animate={{ rotate: isOpen ? 180 : 0 }}
+              animate={{ rotate: isOpen ? 0 : 180 }}
               transition={{ duration: 0.3 }}
             >
               <path d="M6 9l6 6 6-6" />

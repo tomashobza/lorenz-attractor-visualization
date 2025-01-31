@@ -2,7 +2,11 @@
 
 A beautiful 3D visualization of the Lorenz system using React Three Fiber. This project creates an interactive, particle-based representation of the famous butterfly-shaped strange attractor.
 
-![Lorenz Attractor Example](https://raw.githubusercontent.com/yourusername/repo/main/preview.gif)
+## 🌌 Preview
+
+Check out the live demo [here](https://lorenz-attractor-visualization.vercel.app/).
+
+![Lorenz Attractor Example](https://raw.githubusercontent.com/tomashobza/lorenz-attractor-visualization/main/lorenz-attraction-demo.gif)
 
 ## 🚀 Features
 
@@ -24,20 +28,14 @@ A beautiful 3D visualization of the Lorenz system using React Three Fiber. This 
 First, clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/lorenz-attractor.git
-cd lorenz-attractor
+git clone https://github.com/tomashobza/lorenz-attractor-visualization
+cd lorenz-attractor-visualization
 ```
 
 Install the dependencies:
 
 ```bash
-npm install
-```
-
-Or with yarn:
-
-```bash
-yarn install
+bun install
 ```
 
 ## 📦 Dependencies
