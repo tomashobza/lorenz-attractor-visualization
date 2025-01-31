@@ -1,5 +1,5 @@
-import LorenzAttractor from "./LorenzAttractor.jsx";
 import "./App.css";
+import LorenzAttractor from "./LorenzAttractor";
 
 function App() {
   return <LorenzAttractor />;

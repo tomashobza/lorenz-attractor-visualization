@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
@@ -10,7 +10,7 @@ function LorenzParticles() {
   const RHO = 28;
   const BETA = 8 / 3;
   const DT = 0.005;
-  const NUM_PARTICLES = 2000;
+  const NUM_PARTICLES = 5000;
 
   const positions = useMemo(() => {
     const pos = new Float32Array(NUM_PARTICLES * 3);
@@ -70,7 +70,7 @@ function LorenzParticles() {
   });
 
   return (
-    <group>
+    <group position={[0, 0, -20]}>
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -87,7 +87,7 @@ function LorenzParticles() {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.5}
+          size={0.3}
           vertexColors
           transparent
           opacity={1}
@@ -101,7 +101,15 @@ function LorenzParticles() {
 export default function LorenzAttractor() {
   return (
     <div className="w-full h-96 border border-gray-300">
-      <Canvas camera={{ position: [40, 0, 0], fov: 60 }}>
+      <Canvas
+        camera={{
+          position: [50, -50, 30], // Changed camera angle
+          fov: 60,
+          near: 0.1,
+          far: 1000,
+          up: [0, 0, 1],
+        }}
+      >
         <color attach="background" args={["#ffffff"]} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
