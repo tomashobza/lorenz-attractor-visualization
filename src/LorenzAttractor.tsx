@@ -20,7 +20,7 @@ const CONFIG: LorenzConfig = {
   RHO: 28,
   BETA: 8 / 3,
   DT: 0.005,
-  NUM_PARTICLES: 20000,
+  NUM_PARTICLES: 10000,
   BOUNDS: 50,
 } as const;
 
@@ -106,7 +106,7 @@ const LorenzParticles: React.FC = () => {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.1}
+          size={0.3}
           vertexColors
           transparent
           opacity={1}
