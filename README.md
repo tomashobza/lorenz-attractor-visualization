@@ -1,50 +1,113 @@
-# React + TypeScript + Vite
+# 🦋 React Three Fiber Lorenz Attractor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A beautiful 3D visualization of the Lorenz system using React Three Fiber. This project creates an interactive, particle-based representation of the famous butterfly-shaped strange attractor.
 
-Currently, two official plugins are available:
+![Lorenz Attractor Example](https://raw.githubusercontent.com/yourusername/repo/main/preview.gif)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- Real-time 3D particle simulation
+- Interactive camera controls
+- Beautiful color gradients
+- Thousands of particles following the Lorenz system
+- Smooth animation with efficient rendering
+- Fully responsive design
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🎮 Controls
 
-- Configure the top-level `parserOptions` property like this:
+- **Rotate**: Left mouse button drag
+- **Zoom**: Mouse wheel
+- **Pan**: Right mouse button drag
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🛠️ Installation
+
+First, clone the repository:
+
+```bash
+git clone https://github.com/yourusername/lorenz-attractor.git
+cd lorenz-attractor
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Install the dependencies:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+Or with yarn:
+
+```bash
+yarn install
+```
+
+## 📦 Dependencies
+
+- `@react-three/fiber`
+- `@react-three/drei`
+- `three.js`
+
+## 🏃‍♂️ Running the Project
+
+```bash
+npm start
+# or
+yarn start
+```
+
+Visit `http://localhost:3000` to see the visualization.
+
+## 🔢 The Math Behind It
+
+The Lorenz system is described by three coupled differential equations:
+
+```
+dx/dt = σ(y - x)
+dy/dt = x(ρ - z) - y
+dz/dt = xy - βz
+```
+
+Where:
+
+- σ (sigma) = 10
+- ρ (rho) = 28
+- β (beta) = 8/3
+
+These parameters create the classic butterfly-shaped strange attractor discovered by Edward Lorenz in 1963.
+
+## 🎨 Customization
+
+You can customize various aspects of the visualization by modifying the constants in the `LorenzParticles` component:
+
+```javascript
+const SIGMA = 10; // Affects the spread of particles
+const RHO = 28; // Affects the height of the attractor
+const BETA = 8 / 3; // Affects the overall shape
+const DT = 0.005; // Animation speed
+const NUM_PARTICLES = 2000; // Number of particles
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## ✨ Acknowledgments
+
+- Edward Lorenz for discovering this beautiful mathematical system
+- React Three Fiber team for the amazing 3D rendering tools
+- Three.js community for the underlying 3D engine
+
+## 🎯 Future Improvements
+
+- Add UI controls for parameters
+- Implement different color schemes
+- Add particle trails
+- Add support for different strange attractors
+- Optimize performance for mobile devices
+
+---
+
+Made with ❤️ using React Three Fiber
